@@ -21,5 +21,3 @@
 """
 This is PyBOMBS -- github.com/gnuradio/pybombs
 """
-
-__version__ = "2.3.4a1"
