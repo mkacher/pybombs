@@ -31,24 +31,21 @@ from pybombs.utils import vcompare
 
 def parse_git_url(url, args):
     """
-    - If a git rev is given in the URL, split that out and put it into the args
+    - If a git rev is given in the URL, split that out and put it into the args.
+    Support URLs specified in https://git-scm.com/docs/git-clone#_git_urls_a_id_urls_a
 
     Look for format:
         <URL>@<commit|rev|tag>
 
-    <commit|rev|tag> cannot contain a ':' or whitespace.
+    <commit|rev|tag> cannot contain a ':','/','@' or whitespace.
     """
-    # if re.match(r'[a-z]+://[a-z]+@([^@:]+)$', url):
-    #     return url, args
-    # mobj = re.search(r'(.*)@([^:@]+)$', url)
-    # if mobj:
-    #     url, args['gitrev'] = mobj.groups()
-    # return url, args
-    mobj = re.match(r'(.+\.git)@+(.+)', url)
+    mobj = re.match(r"""(.*)@                #The url before the @.
+                        ((?:(?![\/:@\s]).)+$)#If the @ is followed by any of /:@ or whitespace 
+                                             #then it's not @commit, but a token@, keep looking.
+                    """, url, re.VERBOSE)
     if mobj:
         url, args['gitrev'] = mobj.groups()
     return url, args
-
 
 def get_git_version():
     """
