@@ -38,17 +38,17 @@ def parse_git_url(url, args):
 
     <commit|rev|tag> cannot contain a ':' or whitespace.
     """
-    # urls with a single '@' used for the user[:token]@host specifier
-    if re.match(r'git\+[a-z]+://[a-z:]+@([^@]+)$', url):
-        return url, args
-    if re.match(r'[a-z]+://[a-z:]+@([^@]+)$', url):
-        return url, args
-    # urls with '@' used for host@gitrev specifier, parse out gitrev
-    # urls with zero '@' fall through
-    mobj = re.search(r'(.*)@([^:@]+)$', url)
+    # if re.match(r'[a-z]+://[a-z]+@([^@:]+)$', url):
+    #     return url, args
+    # mobj = re.search(r'(.*)@([^:@]+)$', url)
+    # if mobj:
+    #     url, args['gitrev'] = mobj.groups()
+    # return url, args
+    mobj = re.match(r'(.+\.git)@+(.+)', url)
     if mobj:
         url, args['gitrev'] = mobj.groups()
     return url, args
+
 
 def get_git_version():
     """
