@@ -31,7 +31,8 @@ from pybombs.utils import vcompare
 
 def parse_git_url(url, args):
     """
-    - If a git rev is given in the URL, split that out and put it into the args
+    - If a git rev is given in the URL, split that out and put it into the args.
+    Support URLs specified in https://git-scm.com/docs/git-clone#_git_urls_a_id_urls_a
 
     Look for format:
         <URL>@<commit|rev|tag>
